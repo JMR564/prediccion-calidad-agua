@@ -15,6 +15,8 @@ app = Flask(__name__)
 def formulario():
     return render_template("formulario.html")
 
+df = pd.read_csv("datos_calidad_agua.csv")
+
 @app.route('/resultado', methods=['POST'])
 def resultado():
     try:

@@ -7,7 +7,7 @@ import seaborn as sns
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
-from Filtro import obtener_datos_por_ciudades
+
 
 app = Flask(__name__)
 

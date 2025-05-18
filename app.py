@@ -11,7 +11,7 @@ from Filtro import obtener_datos_por_ciudades
 
 app = Flask(__name__)
 
-@app.route('/formulario')
+@app.route('/')
 def formulario():
     return render_template("formulario.html")
 

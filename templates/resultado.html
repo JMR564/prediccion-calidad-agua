@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado de Predicción</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8fc;
+            padding: 40px;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: auto;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .mensaje {
+            color: red;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .prediccion {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .riesgo {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: white;
+            margin-top: 10px;
+        }
+        .Riesgo\ bajo { background-color: #2ecc71; }       /* verde */
+        .Riesgo\ medio { background-color: #f1c40f; color: #000; } /* amarillo */
+        .Riesgo\ alto, .Riesgo\ inviable\ sanitariamente { background-color: #e74c3c; } /* rojo */
+        .Sin\ riesgo { background-color: #3498db; }
+
+        img {
+            display: block;
+            margin: 30px auto;
+            max-width: 100%;
+        }
+        .tabla-pred {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        .tabla-pred th, .tabla-pred td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        .tabla-pred th {
+            background-color: #3498db;
+            color: white;
+        }
+        .volver {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .volver:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    {% if mensaje %}
+        <div class="mensaje">{{ mensaje }}</div>
+        <a href="/" class="volver">Volver al formulario</a>
+    {% else %}
+        <h1>Resultado de la Predicción</h1>
+        <div class="prediccion">
+            Nivel de Riesgo Predicho:
+            <div class="riesgo {{ clase_predicha|replace(' ', '\\ ') }}">{{ clase_predicha }}</div>
+        </div>
+
+        <h2>Probabilidades por clase</h2>
+        <table class="tabla-pred">
+            <tr><th>Clase</th><th>Probabilidad (%)</th></tr>
+            {% for clase, prob in predicciones.items() %}
+                <tr><td>{{ clase }}</td><td>{{ prob }}%</td></tr>
+            {% endfor %}
+        </table>
+
+        <img src="/{{ imagen }}" alt="Matriz de Confusión">
+        <a href="/formulario" class="volver">Volver al formulario</a>
+    {% endif %}
+</div>
+</body>
+</html>

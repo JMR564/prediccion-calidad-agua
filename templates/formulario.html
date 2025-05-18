@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Predicción</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d8ecf9;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+        .contenedor {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .crispml {
+            background-color: #f0f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            border-left: 5px solid #3498db;
+        }
+        .crispml details {
+            margin-bottom: 15px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 10px 15px;
+        }
+        .crispml summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.05em;
+        }
+        .formulario {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            flex: 1;
+        }
+        .formulario h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .formulario label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .formulario input, .formulario select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .formulario button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .formulario button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<div class="contenedor">
+    <div class="crispml">
+        <h2>Metodología CRISP-ML aplicada</h2>
+        <details open>
+            <summary>1. Comprensión del negocio</summary>
+            <p>Se busca anticipar riesgos sanitarios en municipios como Bogotá, Chía, Cajicá, Sopó y Zipaquirá mediante modelos predictivos de calidad del agua.</p>
+        </details>
+        <details>
+            <summary>2. Comprensión de los datos</summary>
+            <p>Se analizaron registros del IRCA con variables como pH, turbiedad, color, coliformes totales y fecales.</p>
+        </details>
+        <details>
+            <summary>3. Preparación de los datos</summary>
+            <p>Se limpiaron valores nulos y simulados datos adicionales para el entrenamiento del modelo.</p>
+        </details>
+        <details>
+            <summary>4. Selección del modelo</summary>
+            <p>Se eligió Gradient Boosting por su precisión y adaptabilidad a datos complejos.</p>
+        </details>
+        <details>
+            <summary>5. Evaluación del modelo</summary>
+            <p>Se utilizaron métricas como precisión, recall y matriz de confusión para validar el rendimiento.</p>
+        </details>
+        <details>
+            <summary>6. Implementación</summary>
+            <p>El modelo fue integrado a una aplicación Flask accesible vía web.</p>
+        </details>
+        <details>
+            <summary>7. Mantenimiento y monitoreo</summary>
+            <p>Se plantea mejorar el modelo con nuevos datos y monitorear su comportamiento.</p>
+        </details>
+    </div>
+
+    <div class="formulario">
+        <h2>Predicción de Riesgo</h2>
+        <form method="POST" action="/resultado">
+            <label for="ciudad">Seleccione una ciudad:</label>
+            <select name="ciudad" id="ciudad" required>
+                <option value="Bogotá, D.C.">Bogotá, D.C.</option>
+                <option value="Chía">Chía</option>
+                <option value="Sopó">Sopó</option>
+                <option value="Zipaquirá">Zipaquirá</option>
+                <option value="Cajicá">Cajicá</option>
+            </select>
+
+            <label for="ph">pH:</label>
+            <input type="number" step="any" name="ph" required>
+
+            <label for="turbiedad">Turbiedad:</label>
+            <input type="number" step="any" name="turbiedad" required>
+
+            <label for="color">Color:</label>
+            <input type="number" step="any" name="color" required>
+
+            <label for="coliformes_totales">Coliformes Totales:</label>
+            <input type="number" step="any" name="coliformes_totales" required>
+
+            <label for="coliformes_fecales">Coliformes Fecales:</label>
+            <input type="number" step="any" name="coliformes_fecales" required>
+
+            <button type="submit">Predecir riesgo</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

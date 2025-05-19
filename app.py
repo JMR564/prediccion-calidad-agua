@@ -8,7 +8,7 @@ app = Flask(__name__)
 df = pd.read_csv("datos_calidad_agua.csv")
 
 # Preprocesar datos
-df = df.dropna(subset=['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales', 'Nivel'])
+df = df.dropna(subset=['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales'])
 X = df[['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales']]
 y = df['Nivel']
 

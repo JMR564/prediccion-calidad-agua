@@ -4,18 +4,31 @@ from sklearn.ensemble import GradientBoostingClassifier
 
 app = Flask(__name__)
 
-# Cargar y preparar los datos una sola vez
+# Leer CSV al inicio y preparar datos
 df = pd.read_csv("datos_calidad_agua.csv")
 
-# Preprocesar datos
-df = df.dropna(subset=['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales'])
-X = df[['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales']]
-y = df['Nivel']
+# Función para calcular nivel de riesgo
+def calcular_nivel(irca):
+    try:
+        irca = float(irca)
+        if irca <= 5:
+            return 'Sin riesgo'
+        elif irca <= 14:
+            return 'Bajo'
+        elif irca <= 35:
+            return 'Medio'
+        elif irca <= 80:
+            return 'Alto'
+        else:
+            return 'Inviable sanitariamente'
+    except:
+        return None
 
-# Entrenar el modelo una sola vez
-modelo = GradientBoostingClassifier()
-modelo.fit(X, y)
-niveles = modelo.classes_
+# Crear columna 'Nivel'
+df['Nivel'] = df['IRCA'].apply(calcular_nivel)
+
+# Eliminar filas con valores faltantes en columnas clave
+df = df.dropna(subset=['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales', 'Nivel'])
 
 @app.route('/')
 def formulario():
@@ -29,9 +42,17 @@ def resultado():
     if datos.empty:
         return render_template('resultado.html', resultado="Ciudad no encontrada", colores={})
 
-    X_pred = datos[['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales']].iloc[0:1]
+    # Entrenar modelo con todos los datos
+    X = df[['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales']]
+    y = df['Nivel']
+    modelo = GradientBoostingClassifier()
+    modelo.fit(X, y)
+
+    # Predecir para la ciudad seleccionada
+    X_pred = datos[['pH', 'Turbiedad', 'Color', 'Coliformes_Totales', 'Coliformes_Fecales']]
     prediccion_proba = modelo.predict_proba(X_pred)[0]
     prediccion = modelo.predict(X_pred)[0]
+    niveles = modelo.classes_
 
     resultado = {niveles[i]: f"{round(prediccion_proba[i]*100, 2)}%" for i in range(len(niveles))}
 
@@ -44,3 +65,6 @@ def resultado():
     }
 
     return render_template('resultado.html', resultado=resultado, prediccion_final=prediccion, colores=colores)
+
+if __name__ == '__main__':
+    app.run(debug=True)

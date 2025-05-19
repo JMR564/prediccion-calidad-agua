@@ -39,9 +39,9 @@
             color: white;
             margin-top: 10px;
         }
-        .Riesgo\ bajo { background-color: #2ecc71; }       /* verde */
-        .Riesgo\ medio { background-color: #f1c40f; color: #000; } /* amarillo */
-        .Riesgo\ alto, .Riesgo\ inviable\ sanitariamente { background-color: #e74c3c; } /* rojo */
+        .Riesgo\ bajo { background-color: #2ecc71; }
+        .Riesgo\ medio { background-color: #f1c40f; color: #000; }
+        .Riesgo\ alto, .Riesgo\ inviable\ sanitariamente { background-color: #e74c3c; }
         .Sin\ riesgo { background-color: #3498db; }
 
         img {
@@ -80,26 +80,25 @@
 </head>
 <body>
 <div class="container">
-    {% if mensaje %}
-        <div class="mensaje">{{ mensaje }}</div>
+    {% if resultado == "Ciudad no encontrada" %}
+        <div class="mensaje">{{ resultado }}</div>
         <a href="/" class="volver">Volver al formulario</a>
     {% else %}
         <h1>Resultado de la Predicción</h1>
         <div class="prediccion">
             Nivel de Riesgo Predicho:
-            <div class="riesgo {{ clase_predicha|replace(' ', '\\ ') }}">{{ clase_predicha }}</div>
+            <div class="riesgo {{ prediccion_final|replace(' ', '\\ ') }}">{{ prediccion_final }}</div>
         </div>
 
         <h2>Probabilidades por clase</h2>
         <table class="tabla-pred">
             <tr><th>Clase</th><th>Probabilidad (%)</th></tr>
-            {% for clase, prob in predicciones.items() %}
-                <tr><td>{{ clase }}</td><td>{{ prob }}%</td></tr>
+            {% for clase, prob in resultado.items() %}
+                <tr><td>{{ clase }}</td><td>{{ prob }}</td></tr>
             {% endfor %}
         </table>
 
-        <img src="/{{ imagen }}" alt="Matriz de Confusión">
-        <a href="/formulario" class="volver">Volver al formulario</a>
+        <a href="/" class="volver">Volver al formulario</a>
     {% endif %}
 </div>
 </body>
